@@ -1,0 +1,12 @@
+.app-header {
+    background-color: gainsboro;
+    padding: 5px;
+    h1 {
+      span:first-child {
+        color: midnightblue;
+      }
+      span:nth-child(2) {
+        color: mediumturquoise;
+      }
+    }
+}
