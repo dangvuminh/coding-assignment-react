@@ -1,12 +1,18 @@
 .app-header {
     background-color: gainsboro;
     padding: 5px;
+
     h1 {
-      span:first-child {
-        color: midnightblue;
-      }
-      span:nth-child(2) {
-        color: mediumturquoise;
-      }
+        background-color: aliceblue;
+        display: inline-block;
+        padding: 5px;
+        border-radius: 10px;
+        span:first-child {
+            color: midnightblue;
+        }
+        span:nth-child(2) {
+            color: mediumturquoise;
+        }
     }
+
 }
