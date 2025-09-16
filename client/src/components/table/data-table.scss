@@ -1,0 +1,23 @@
+.data-table {
+    border: 1px solid gainsboro;
+    border-collapse: collapse;
+    thead {
+        background-color: gainsboro;
+        th {
+            padding: 5px;
+        }
+    }
+    tbody {
+        tr {
+
+            td,
+            th {
+                border: 1px solid gainsboro;
+                border-right: none;
+                padding: 5px;
+                text-align: center;
+            }
+
+        }
+    }
+}

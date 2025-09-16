@@ -29,7 +29,7 @@ const App = () => {
   return (
     <div className={styles['app']}>
       <div className="app-header">
-        <h1><span>Ticketing</span> <span>App</span></h1>
+        <h1><span>Ticketing</span> <span><i>App</i></span></h1>
       </div>
       <Routes>
         <Route path="/" element={<Tickets tickets={tickets} />} />
