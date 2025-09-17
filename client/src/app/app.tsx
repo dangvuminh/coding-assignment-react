@@ -4,6 +4,7 @@ import { Ticket, User } from '@acme/shared-models';
 
 import styles from './app.module.css';
 import Tickets from './tickets/tickets';
+import TicketDetails from './details/ticket-details';
 
 const App = () => {
   const [tickets, setTickets] = useState([] as Ticket[]);
@@ -34,7 +35,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Tickets tickets={tickets} />} />
         {/* Hint: Try `npx nx g component TicketDetails --project=client --no-export` to generate this component  */}
-        <Route path="/:id" element={<h2>Details Not Implemented</h2>} />
+        <Route path="/:id" element={<TicketDetails />} />
       </Routes>
     </div>
   );

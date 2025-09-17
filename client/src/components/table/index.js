@@ -2,7 +2,7 @@ import { faBook, faCheck, faClose, faEllipsisH } from "@fortawesome/free-solid-s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react";
 import './data-table.scss'
-const DataTable = ({ columns, rows, action }) => {
+const DataTable = ({ columns, rows, action, onRowSelect }) => {
 
     const menuRef = useRef([]);
 
@@ -33,7 +33,7 @@ const DataTable = ({ columns, rows, action }) => {
         <tbody>
             {
                 rows.map((r, rIndex) => (
-                    <tr key={rIndex}>
+                    <tr key={rIndex} onClick={() => onRowSelect(r)}>
 
                         {
                             columns.map((col, colIndex) => {
@@ -45,7 +45,7 @@ const DataTable = ({ columns, rows, action }) => {
                             })
                         }
                         {action &&
-                            <td style={{ position: 'relative' }}><FontAwesomeIcon icon={faEllipsisH} onClick={() => setShowMenu(r.id)} />
+                            <td style={{ position: 'relative' }}><FontAwesomeIcon icon={faEllipsisH} onClick={(e) => { e.stopPropagation(); setShowMenu(r.id) }} />
                                 <div ref={(ele) => menuRef.current[rIndex] = ele} className="menu-item" style={{ position: 'absolute', top: 0, left: 40, display: showMenu === r.id ? 'block' : 'none', backgroundColor: 'ghostwhite' }}>
                                     <ul style={{ width: '120px', padding: "10px", textAlign: 'start' }}>
                                         {
