@@ -2,7 +2,7 @@ import { faCheck, faClose, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AssigneeToggle from "./assignee-toggle";
+import PropertySidebar from "./property-sidebar";
 
 const TicketDetails = () => {
     const params = useParams();
@@ -26,7 +26,7 @@ const TicketDetails = () => {
                 </div>
             </div>
         </div>
-        <AssigneeToggle details={details} setDetails={setDetails}/>
+        <PropertySidebar details={details} setDetails={setDetails}/>
     </div>
 }
 

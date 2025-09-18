@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const AssigneeToggle = ({ details, setDetails }) => {
+const AssigneeToggle = ({ handleToggle, defaultAssigneeId }) => {
     const [users, setUsers] = useState({});
     useEffect(() => {
         const fetchDetails = async () => {
@@ -12,30 +12,15 @@ const AssigneeToggle = ({ details, setDetails }) => {
         }
         fetchDetails();
     }, [])
-    return <div className="assignee-toggle" style={{ width: "30%" }}>
-        <h3>Status</h3>
-        {(details.completed === true || details.completed === false) &&
-            <div>
-                <input type="checkbox" defaultChecked={details.completed} onChange={async (e) => {
-                    const method = e.target.checked ? 'PUT' : 'DELETE'
-                    await fetch(`/api/tickets/${details.id}/complete`, { method }).then(res => {
-                        if (res.ok) {
-                            console.log("Updated successfully");
-                            setDetails((prev) => ({ ...prev, completed: e.target.checked }))
-                        } else {
-                            console.error("Updated failed");
-                        }
-                    })
-                }} />
-                {!details.completed ? 'Mark completed' : 'Mark incompleted'}
-            </div>}
-         <h3>Assignee</h3>   
-        {users.length > 0 && details?.id && users?.map((user) => {
-            
-            return <div>
-                {<input defaultChecked={user.id === details.assigneeId} type='radio' name="user" id={user.id}/> }<label for={user.id}>{user.name}</label>
-            </div>
-        })}
+    return<div> 
+        <input defaultChecked={defaultAssigneeId === null} type='radio' name="user" id={-1} onChange={async () => handleToggle({id: -1})} />
+        <label for={-1}>Unassigned</label>
+        {users.length > 0 && users?.map((user) => {
+        return <div>
+            <input defaultChecked={user.id === defaultAssigneeId} type='radio' name="user" id={user.id} onChange={async () => handleToggle(user)} />
+            <label for={user.id}>{user.name}</label>
+        </div>
+    })}
     </div>
 }
 
