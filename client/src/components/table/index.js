@@ -33,7 +33,7 @@ const DataTable = ({ columns, rows, action, onRowSelect }) => {
         <tbody>
             {
                 rows.map((r, rIndex) => (
-                    <tr key={rIndex} onClick={() => onRowSelect(r)}>
+                    <tr key={rIndex} onClick={() => { onRowSelect(r) }}>
 
                         {
                             columns.map((col, colIndex) => {
@@ -46,13 +46,15 @@ const DataTable = ({ columns, rows, action, onRowSelect }) => {
                         }
                         {action &&
                             <td style={{ position: 'relative' }}><FontAwesomeIcon icon={faEllipsisH} onClick={(e) => { e.stopPropagation(); setShowMenu(r.id) }} />
-                                <div ref={(ele) => menuRef.current[rIndex] = ele} className="menu-item" style={{ position: 'absolute', top: 0, left: 40, display: showMenu === r.id ? 'block' : 'none', backgroundColor: 'ghostwhite' }}>
-                                    <ul style={{ width: '120px', padding: "10px", textAlign: 'start' }}>
+                                <div ref={(ele) => menuRef.current[rIndex] = ele} className="menu-item" style={{ position: 'absolute', top: 0, left: 40, display: showMenu === r.id ? 'block' : 'none', backgroundColor: 'white', boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)', borderRadius: "6px", zIndex: 99 }}>
+                                    <ul style={{ width: '150px', padding: "5px 10px", textAlign: 'start' }}>
                                         {
                                             action.nodes.map((n, nIndex) => {
-                                                return <li key={nIndex} onClick={() => {
+                                                return <li style={{ listStyleType: 'none', paddingBottom: 5 }} key={nIndex} onClick={(e) => {
+                                                    e.stopPropagation();
                                                     n.onClick(r);
-                                                }}><FontAwesomeIcon icon={n.icon} /> {n.title}</li>
+                                                    setShowMenu(false);
+                                                }}><FontAwesomeIcon icon={n.icon(r)} /> {n.title(r)}</li>
                                             })
                                         }
 
