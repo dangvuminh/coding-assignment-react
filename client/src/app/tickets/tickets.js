@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'client/src/components/modal';
 import { useState } from 'react';
 import AssigneeToggle from '../details/assignee-toggle';
+import useFetchApis from 'client/src/hooks/useFetchApis';
 export interface TicketsProps {
   tickets: Ticket[];
   setTickets: (ticket: Ticket[]) => void;
@@ -18,6 +19,9 @@ export function Tickets(props: TicketsProps) {
   const [openModal, setOpenModal] = useState(false);
   const [description, setDescription] = useState('');
 
+  const [markTicket] = useFetchApis(`/api/tickets/:id/complete`)
+  const [createTicket] = useFetchApis('/api/tickets');
+
   return (
     <div className={styles['tickets']}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}><h2>Tickets</h2> <button onClick={() => setOpenModal(true)}>Create ticket</button></div>
@@ -28,8 +32,9 @@ export function Tickets(props: TicketsProps) {
               navigate(`/${row.id}`)
             }
           }, {
-            icon: () => faMarker, title: (row: any) => row.completed ? 'Mark incompleted' : 'Mark completed', onClick: async (row: any) => {
-              await fetch(`/api/tickets/${row.id}/complete`, { method: row.completed ? 'DELETE' : 'PUT' }).then();
+            icon: () => faMarker, title: (row: any) => row.completed ? 'Mark incompleted' : 'Mark completed',
+            onClick: async (row: any) => {
+              await markTicket({ params: { id: row.id }, method: row.completed ? 'DELETE' : 'PUT' });
               props.setTickets(props.tickets.map((ticket) => ticket.id === row.id ? { ...ticket, completed: !row.completed } : ticket))
             }
           }]
@@ -47,7 +52,7 @@ export function Tickets(props: TicketsProps) {
         <AssigneeToggle defaultAssigneeId={null} handleToggle={() => { }} />
       </div>} footer={<div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <button onClick={async () => {
-          const data = await (await fetch('/api/tickets', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ description }) }).then()).json();
+          const data = await createTicket({ method: 'POST', body: { description } })
           props.setTickets([...props.tickets, data] as Ticket[]);
           setOpenModal(false);
         }} type='submit'>Save</button>

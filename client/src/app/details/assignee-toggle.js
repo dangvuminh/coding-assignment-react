@@ -1,17 +1,17 @@
+import useFetchApis from "client/src/hooks/useFetchApis";
 import { useEffect, useState } from "react";
 
 const AssigneeToggle = ({ handleToggle, defaultAssigneeId }) => {
     const [users, setUsers] = useState({});
+    const [fetchUsers] = useFetchApis('/api/users/');
     useEffect(() => {
         const fetchDetails = async () => {
-            await fetch('/api/users/').then((res) => {
-                return res.json();
-            }).then(async (data) => {
-                setUsers(data);
-            });
+           const data = await fetchUsers({});
+           setUsers(data)
         }
-        fetchDetails();
+        fetchDetails({});
     }, [])
+    
     return<div> 
         <input defaultChecked={defaultAssigneeId === null} type='radio' name="user" id={-1} onChange={async () => handleToggle({id: -1})} />
         <label for={-1}>Unassigned</label>
