@@ -1,32 +1,31 @@
-import { faCheck, faClose, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropertySidebar from "./property-sidebar";
+import useFetchApis from "client/src/hooks/useFetchApis";
 
 const TicketDetails = () => {
     const params = useParams();
     const [details, setDetails] = useState({});
+    const [fetchTicket, { error: ticketError, loading: loadingTicket }] = useFetchApis(`/api/tickets/:id`);
+    const [fetchUsers, { error: userError, loading: loadingUsers }] = useFetchApis(`/api/users/:id`);
+    
     useEffect(() => {
         const fetchDetails = async () => {
-            await fetch(`/api/tickets/${params.id}`).then((res) => {
-                return res.json();
-            }).then(async (data) => {
-                const user = await (await fetch(`/api/users/${data.assigneeId}`).then()).json();
-                setDetails({ ...data, assignee: user.name });
-            });
+            const det = await fetchTicket({ params: { id: params.id } });
+            const user = await fetchUsers({params: { id: det.assigneeId }});
+            setDetails({ ...det, assignee: user.name })
         }
         fetchDetails();
-    }, [params.id])
+    }, [params.id,])
     return <div className="ticket-details" style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div className="details-content"> <h2>Ticket ID: {details.id} <span style={{fontSize: 14}}>{details.completed ? 'Completed' : 'Incompleted'}</span></h2>
+        <div className="details-content"> <h2>Ticket ID: {details.id} <span style={{ fontSize: 14 }}>{details.completed ? 'Completed' : 'Incompleted'}</span></h2>
             <div>
                 <div>
-                    <h3>Description: {details.description}</h3>
+                    <h3>Description: {!loadingTicket ? details.description : 'Loading...'}</h3>
                 </div>
             </div>
         </div>
-        <PropertySidebar details={details} setDetails={setDetails}/>
+        {(!loadingTicket && !loadingUsers ) ? <PropertySidebar details={details} setDetails={setDetails} /> : 'Loading...'}
     </div>
 }
 

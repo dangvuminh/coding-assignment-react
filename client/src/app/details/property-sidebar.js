@@ -1,18 +1,6 @@
-import { useEffect, useState } from "react";
 import AssigneeToggle from "./assignee-toggle";
 
 const PropertySidebar = ({ details, setDetails }) => {
-    const [users, setUsers] = useState({});
-    useEffect(() => {
-        const fetchDetails = async () => {
-            await fetch('/api/users/').then((res) => {
-                return res.json();
-            }).then(async (data) => {
-                setUsers(data);
-            });
-        }
-        fetchDetails();
-    }, [])
     return <div className="assignee-toggle" style={{ width: "30%" }}>
         <h3>Status</h3>
         {(details.completed === true || details.completed === false) &&
