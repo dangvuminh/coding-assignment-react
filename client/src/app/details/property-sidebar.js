@@ -1,4 +1,4 @@
-import AssigneeToggle from "./assignee-toggle";
+import AssigneeToggle from "../components/assignee-toggle";
 
 const PropertySidebar = ({ details, setDetails }) => {
     return <div className="assignee-toggle" style={{ width: "30%" }}>
