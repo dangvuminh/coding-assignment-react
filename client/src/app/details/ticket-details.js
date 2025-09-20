@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropertySidebar from "./property-sidebar";
 import useFetchApis from "client/src/hooks/useFetchApis";
+import LeftSidebar from "./left-sidebar";
 
 const TicketDetails = () => {
     const params = useParams();
@@ -18,6 +19,7 @@ const TicketDetails = () => {
         fetchDetails();
     }, [params.id,])
     return <div className="ticket-details" style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <LeftSidebar />
         <div className="details-content"> <h2>Ticket ID: {details.id} <span style={{ fontSize: 14 }}>{details.completed ? 'Completed' : 'Incompleted'}</span></h2>
             <div>
                 <div>

@@ -1,0 +1,22 @@
+.status-toggle {
+    display: flex;
+    align-self: center;
+    .success {
+        border-right: 1px solid moccasin;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .error {
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .success.completed{
+        background-color: aquamarine;
+        color: black;
+    }
+    .error.incompleted {
+        background-color:lightcoral;
+        color: white;
+    }
+}

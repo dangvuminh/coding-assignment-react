@@ -12,7 +12,7 @@ const AssigneeToggle = ({ handleToggle, defaultAssigneeId }) => {
         fetchDetails({});
     }, [])
     
-    return<div> 
+    return<div className="assignee-dropdown"> 
         <input defaultChecked={defaultAssigneeId === null} type='radio' name="user" id={-1} onChange={async () => handleToggle({id: -1})} />
         <label for={-1}>Unassigned</label>
         {users.length > 0 && users?.map((user) => {

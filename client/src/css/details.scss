@@ -1,9 +1,14 @@
 .ticket-details {
     .details-content {
-        width: 70%; 
+        width: 70%;
         padding: 10px;
     }
-    .assignee-toggle {
-        background-color: ghostwhite;
+
+    .sidebar {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding: 20px;
+        height: 500px;
     }
+
+    .property-sidebar {}
 }

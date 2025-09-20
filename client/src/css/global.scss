@@ -7,12 +7,31 @@
         display: inline-block;
         padding: 5px;
         border-radius: 10px;
+
         span:first-child {
             color: midnightblue;
         }
+
         span:nth-child(2) {
             color: mediumturquoise;
         }
     }
 
+}
+
+.showCursor {
+    cursor: pointer;
+}
+
+.showActive {
+    &:hover {
+        background-color: antiquewhite;
+    }
+}
+
+.modal-shadow-bg.active {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
 }

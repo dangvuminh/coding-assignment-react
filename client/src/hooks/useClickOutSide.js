@@ -1,18 +1,25 @@
 import { useEffect, useRef } from "react";
 
-const useClickOutside = () => {
+const useClickOutside = (handler) => {
     const myRef = useRef([]);
+    console.log(myRef.current);
+    
     useEffect(() => {
         function handleClickOutside(event) {
-            if (myRef.current && !myRef.current.some((el) => el.contains(event.target))) {
-                setShowMenu(null); // close when clicking outside
+            const clickedInside = myRef.current.some(
+                (el) => el && el.contains(event.target)
+            );
+
+            if (!clickedInside) {
+                console.log("Clicked outside all items!");
+                handler();
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [myRef]);
+    }, [myRef, handler]);
 
     return { myRef }
 }

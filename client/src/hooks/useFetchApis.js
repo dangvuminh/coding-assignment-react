@@ -36,7 +36,8 @@ const useFetchApis = (url) => {
                 throw err;
             }
 
-            const json = await res.json();
+            const text = await res.text();
+            const json = text ? JSON.parse(text) : null;
             setData(json);
             return json;
         } catch (err) {
@@ -46,7 +47,7 @@ const useFetchApis = (url) => {
             setLoading(false);
         }
     };
-    
+
     return [fetchApi, { loading, error, data }];
 };
 

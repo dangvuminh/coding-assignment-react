@@ -3,11 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react";
 import './data-table.scss'
 import useClickOutside from "client/src/hooks/useClickOutSide";
-const DataTable = ({ columns, rows, action, onRowSelect }) => {
-    const {myRef} = useClickOutside();
-
+const DataTable = ({ columns, rows, action, onRowSelect, width = 1100 }) => {
     const [showMenu, setShowMenu] = useState();
-    return <table className='data-table'>
+    const { myRef } = useClickOutside(() => setShowMenu(false));
+    return <table className='data-table' style={{ width: width }}>
         <thead>
             <tr>
                 {
@@ -21,7 +20,7 @@ const DataTable = ({ columns, rows, action, onRowSelect }) => {
         <tbody>
             {
                 rows.map((r, rIndex) => (
-                    <tr key={rIndex} onClick={() => { onRowSelect(r) }}>
+                    <tr className="showCursor showActive" key={rIndex} onClick={() => { onRowSelect(r) }}>
 
                         {
                             columns.map((col, colIndex) => {
@@ -33,8 +32,8 @@ const DataTable = ({ columns, rows, action, onRowSelect }) => {
                             })
                         }
                         {action &&
-                            <td style={{ position: 'relative' }}><FontAwesomeIcon icon={faEllipsisH} onClick={(e) => { e.stopPropagation(); setShowMenu(r.id) }} />
-                                <div ref={(ele) => myRef.current[rIndex] = ele} className="menu-item" style={{ position: 'absolute', top: 0, left: 40, display: showMenu === r.id ? 'block' : 'none', backgroundColor: 'white', boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)', borderRadius: "6px", zIndex: 99 }}>
+                            <td style={{ position: 'relative' }}><FontAwesomeIcon className="showCursor" icon={faEllipsisH} onClick={(e) => { e.stopPropagation(); setShowMenu(r.id) }} />
+                                <div ref={(ele) => myRef.current[rIndex] = ele} className="menu-item" style={{ position: 'absolute', top: 30, left: -40, display: showMenu === r.id ? 'block' : 'none', backgroundColor: 'white', boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)', borderRadius: "6px", zIndex: 99 }}>
                                     <ul style={{ width: '150px', padding: "5px 10px", textAlign: 'start' }}>
                                         {
                                             action.nodes.map((n, nIndex) => {
