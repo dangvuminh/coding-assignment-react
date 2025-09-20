@@ -1,0 +1,33 @@
+.custom-button {
+    button {
+        &:hover {
+        cursor: pointer;
+        background-color: antiquewhite;
+    }
+    }
+    .primary {
+        border-radius: 6px;
+        border: 2px solid paleturquoise;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        background-color: unset;
+        padding: 10px;
+        color: midnightblue;
+    }
+    .error {
+        border-radius: 6px;
+        border: 2px solid indianred;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        background-color: unset;
+        padding: 10px;
+        color: crimson;
+    }
+
+    .success {
+        border-radius: 6px;
+        border: 2px solid forestgreen;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        background-color: unset;
+        padding: 10px;
+        color: olivedrab;
+    }
+}
