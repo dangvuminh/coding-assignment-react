@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 
 const useClickOutside = (handler: () => void) => {
   const myRef = useRef<(HTMLElement | null)[]>([]);
-  console.log(myRef.current);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

@@ -46,12 +46,12 @@ const App = () => {
               tickets={tickets}
               setTickets={setTickets}
               users={users}
-              originalTickets={originalTickets.current}
+              originalTickets={originalTickets}
             />
           }
         />
         {/* Hint: Try `npx nx g component TicketDetails --project=client --no-export` to generate this component  */}
-        <Route path="/:id" element={<TicketDetails />} />
+        <Route path="/:id" element={<TicketDetails tickets={tickets}/>} />
       </Routes>
     </div>
   );

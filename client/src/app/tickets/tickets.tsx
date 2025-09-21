@@ -16,7 +16,7 @@ export interface TicketsProps {
   tickets: Ticket[];
   setTickets: (ticket: Ticket[]) => void;
   users: User[];
-  originalTickets: Ticket[];
+  originalTickets: React.MutableRefObject<Ticket[]>;
 }
 
 const columns = [
@@ -33,7 +33,7 @@ export function Tickets(props: TicketsProps) {
 
   const [markTicket] = useFetchApis(`/api/tickets/:id/complete`);
   const [createTicket] = useFetchApis('/api/tickets');
-
+                console.log(props.originalTickets.current);
   const mappedRows = useMemo(() => {
     const userMap: Record<string, string> = {};
     props.users.forEach((user) => {
@@ -56,10 +56,10 @@ export function Tickets(props: TicketsProps) {
               <StatusToggle
                 onClick={(status) => {
                   if (status === '') {
-                    props.setTickets(props.originalTickets);
+                    props.setTickets(props.originalTickets.current);
                   } else
                     props.setTickets(
-                      props.originalTickets.filter((ticket) =>
+                      props.originalTickets.current.filter((ticket) =>
                         status === 'completed' ? ticket.completed : !ticket.completed
                       )
                     );
@@ -93,6 +93,9 @@ export function Tickets(props: TicketsProps) {
                       params: { id: row.id },
                       method: row.completed ? 'DELETE' : 'PUT',
                     });
+                    props.originalTickets.current = props.originalTickets.current.map((item) =>
+                      item.id === row.id ? { ...item, completed: !row.completed } : item
+                    );
                     props.setTickets(
                       props.tickets.map((ticket) =>
                         ticket.id === row.id ? { ...ticket, completed: !row.completed } : ticket
@@ -133,6 +136,7 @@ export function Tickets(props: TicketsProps) {
               onClick={async () => {
                 const data = await createTicket({ method: 'POST', body: { description } });
                 props.setTickets([...props.tickets, data] as Ticket[]);
+                props.originalTickets.current = [...props.tickets, data] as Ticket[];
                 setOpenModal(false);
               }}
             >

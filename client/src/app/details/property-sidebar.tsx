@@ -1,6 +1,5 @@
 import useFetchApis from 'client/src/hooks/useFetchApis';
 import AssigneeDropDown from '../components/assignee-dropdown';
-import { Ticket } from '@acme/shared-models';
 import { TicketImp } from './type';
 
 const PropertySidebar = ({
@@ -40,7 +39,7 @@ const PropertySidebar = ({
                   method: 'PUT',
                   params: { ticketId: details.id.toString(), userId: user.id.toString() },
                 })
-              : await unassignUser({ method: 'PUT', params: { userId: user.id.toString() } });
+              : await unassignUser({ method: 'PUT', params: { ticketId: details.id.toString() } });
             setDetails({ ...details, assigneeId: user.id });
           }}
         />

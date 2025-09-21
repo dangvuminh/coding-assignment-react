@@ -7,9 +7,9 @@ import './details.scss';
 import { Ticket, User } from '@acme/shared-models';
 import { TicketImp } from './type';
 
-const TicketDetails = () => {
+const TicketDetails = ({ tickets }: { tickets: Ticket[] }) => {
   const params = useParams();
-  const [details, setDetails] = useState<TicketImp>();
+  const [details, setDetails] = useState<TicketImp | undefined>();
   const [fetchTicket, { error: ticketError, loading: loadingTicket }] =
     useFetchApis(`/api/tickets/:id`);
   const [fetchUsers, { error: userError, loading: loadingUsers }] = useFetchApis(`/api/users/:id`);
@@ -24,7 +24,7 @@ const TicketDetails = () => {
   }, [params['id']]);
   return (
     <div className="ticket-details" style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <LeftSidebar />
+      <LeftSidebar tickets={tickets} details={details} />
       <div className="details-content">
         {' '}
         <h2>
