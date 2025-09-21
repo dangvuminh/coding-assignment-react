@@ -6,10 +6,11 @@ import LeftSidebar from './left-sidebar';
 import './details.scss';
 import { Ticket, User } from '@acme/shared-models';
 import { TicketImp } from './type';
+import Button from 'client/src/components/buttons';
 
-const TicketDetails = () => {
+const TicketDetails = ({ tickets }: { tickets: Ticket[] }) => {
   const params = useParams();
-  const [details, setDetails] = useState<TicketImp>();
+  const [details, setDetails] = useState<TicketImp | undefined>();
   const [fetchTicket, { error: ticketError, loading: loadingTicket }] =
     useFetchApis(`/api/tickets/:id`);
   const [fetchUsers, { error: userError, loading: loadingUsers }] = useFetchApis(`/api/users/:id`);
@@ -24,13 +25,19 @@ const TicketDetails = () => {
   }, [params['id']]);
   return (
     <div className="ticket-details" style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <LeftSidebar />
+      <LeftSidebar tickets={tickets} details={details} />
       <div className="details-content">
         {' '}
-        <h2>
-          Ticket ID: {details?.id}{' '}
-          <span style={{ fontSize: 14 }}>{details?.completed ? 'Completed' : 'Incompleted'}</span>
-        </h2>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <h2>Ticket ID: {details?.id} </h2>
+          <span style={{ fontSize: 14, marginLeft: '15px' }}>
+            {details?.completed ? (
+              <Button variant="success">Completed</Button>
+            ) : (
+              <Button variant="error">Incompleted</Button>
+            )}
+          </span>
+        </div>
         <div>
           <div>
             <h3>Description: {!loadingTicket ? details?.description : 'Loading...'}</h3>
