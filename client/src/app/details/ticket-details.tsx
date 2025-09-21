@@ -6,6 +6,7 @@ import LeftSidebar from './left-sidebar';
 import './details.scss';
 import { Ticket, User } from '@acme/shared-models';
 import { TicketImp } from './type';
+import Button from 'client/src/components/buttons';
 
 const TicketDetails = ({ tickets }: { tickets: Ticket[] }) => {
   const params = useParams();
@@ -27,10 +28,16 @@ const TicketDetails = ({ tickets }: { tickets: Ticket[] }) => {
       <LeftSidebar tickets={tickets} details={details} />
       <div className="details-content">
         {' '}
-        <h2>
-          Ticket ID: {details?.id}{' '}
-          <span style={{ fontSize: 14 }}>{details?.completed ? 'Completed' : 'Incompleted'}</span>
-        </h2>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <h2>Ticket ID: {details?.id} </h2>
+          <span style={{ fontSize: 14, marginLeft: '15px' }}>
+            {details?.completed ? (
+              <Button variant="success">Completed</Button>
+            ) : (
+              <Button variant="error">Incompleted</Button>
+            )}
+          </span>
+        </div>
         <div>
           <div>
             <h3>Description: {!loadingTicket ? details?.description : 'Loading...'}</h3>

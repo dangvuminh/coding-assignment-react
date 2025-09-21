@@ -118,16 +118,15 @@ export function Tickets(props: TicketsProps) {
         title="Create ticket"
         body={
           <div>
-            <input
+            <textarea
               name="description"
               style={{ padding: '10px', width: '95%' }}
-              type="text"
               placeholder="Description"
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
+              rows={10}
             />
-            <h3>Assign assignee</h3>
           </div>
         }
         footer={

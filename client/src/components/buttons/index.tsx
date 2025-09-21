@@ -9,7 +9,7 @@ const Button = ({
 }: {
   children: ReactElement | string;
   variant?: 'primary' | 'error' | 'success';
-  onClick: () => void;
+  onClick?: () => void;
   prefixIcon?: ReactElement;
   className?: string;
 }) => {
