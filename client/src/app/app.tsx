@@ -23,7 +23,7 @@ const App = () => {
     async function fetchUsers() {
       const data = await fetch('/api/users').then();
       setUsers(await data.json());
-    } 
+    }
     fetchTickets();
     fetchUsers();
   }, []);
@@ -31,10 +31,25 @@ const App = () => {
   return (
     <div className={styles['app']}>
       <div className="app-header">
-        <h1><span>Ticketing</span> <span><i>App</i></span></h1>
+        <h1>
+          <span>Ticketing</span>{' '}
+          <span>
+            <i>App</i>
+          </span>
+        </h1>
       </div>
       <Routes>
-        <Route path="/" element={<Tickets tickets={tickets} setTickets={setTickets} users={users} originalTickets={originalTickets.current} />} />
+        <Route
+          path="/"
+          element={
+            <Tickets
+              tickets={tickets}
+              setTickets={setTickets}
+              users={users}
+              originalTickets={originalTickets.current}
+            />
+          }
+        />
         {/* Hint: Try `npx nx g component TicketDetails --project=client --no-export` to generate this component  */}
         <Route path="/:id" element={<TicketDetails />} />
       </Routes>

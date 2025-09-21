@@ -1,0 +1,93 @@
+import { faCheck, faClose, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import './data-table.scss';
+import useClickOutside from 'client/src/hooks/useClickOutSide';
+import { DataTableType } from './types';
+
+const DataTable = ({ columns, rows, action, onRowSelect, width = 1100 }: DataTableType) => {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const { myRef } = useClickOutside(() => setShowMenu(false));
+  return (
+    <table className="data-table" style={{ width: width }}>
+      <thead>
+        <tr>
+          {columns.map((col, index) => {
+            return <th key={index}>{col.label}</th>;
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, rIndex) => (
+          <tr
+            className="showCursor showActive"
+            key={rIndex}
+            onClick={() => {
+              onRowSelect?.(r);
+            }}
+          >
+            {columns.map((col, colIndex) => {
+              return col.type && col?.type === 'boolean' ? (
+                <td key={colIndex}>
+                  {r[col.field] ? (
+                    <FontAwesomeIcon icon={faCheck} color="green" />
+                  ) : (
+                    <FontAwesomeIcon icon={faClose} color="red" />
+                  )}
+                </td>
+              ) : (
+                <td key={colIndex}>{r[col.field]}</td>
+              );
+            })}
+            {action && (
+              <td style={{ position: 'relative' }}>
+                <FontAwesomeIcon
+                  className="showCursor"
+                  icon={faEllipsisH}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowMenu(r.id);
+                  }}
+                />
+                <div
+                  ref={(ele) => (myRef.current[rIndex] = ele)}
+                  className="menu-item"
+                  style={{
+                    position: 'absolute',
+                    top: 30,
+                    left: -40,
+                    display: showMenu === r.id ? 'block' : 'none',
+                    backgroundColor: 'white',
+                    boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)',
+                    borderRadius: '6px',
+                    zIndex: 99,
+                  }}
+                >
+                  <ul style={{ width: '150px', padding: '5px 10px', textAlign: 'start' }}>
+                    {action.nodes.map((n, nIndex) => {
+                      return (
+                        <li
+                          style={{ listStyleType: 'none', paddingBottom: 5 }}
+                          key={nIndex}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            n.onClick(r);
+                            setShowMenu(false);
+                          }}
+                        >
+                          <FontAwesomeIcon icon={n.icon(r)} /> {n.title(r)}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </td>
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default DataTable;
